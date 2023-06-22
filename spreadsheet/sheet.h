@@ -1,1 +1,47 @@
-/* СЂР°Р·РјРµСЃС‚РёС‚Рµ Р·РґРµСЃСЊ СЃРІРѕР№ РєРѕРґ */
+#pragma once
+
+#include "cell.h"
+#include "common.h"
+
+#include <functional>
+
+class Sheet : public SheetInterface {
+public:
+
+    Sheet() {
+        
+        
+    }
+
+    ~Sheet() {
+
+
+    }
+
+    //устанавливает содержимое ячейки с позицией pos
+    void SetCell(Position pos, std::string text) override;
+
+    //возращает ссылку на содержимое ячейки 
+    const CellInterface* GetCell(Position pos) const override;
+    CellInterface* GetCell(Position pos) override;
+
+    //очищает ячейку с позицией pos
+    void ClearCell(Position pos) override;
+    
+    // считает и возращает размер рабочей области для печати
+    Size GetPrintableSize() const override;
+
+    //выводит содержимое таблицы в поток
+    void PrintValues(std::ostream& output) const override;
+    void PrintTexts(std::ostream& output) const override;
+
+	
+
+
+private:
+    
+    //ячейки таблицы
+    std::vector<std::vector< std::unique_ptr<Cell>>> sheet_;
+
+	
+};

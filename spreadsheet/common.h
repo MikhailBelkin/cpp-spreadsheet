@@ -31,6 +31,7 @@ struct Size {
     int cols = 0;
 
     bool operator==(Size rhs) const;
+    bool operator<(Size rhs) const;
 };
 
 // Описывает ошибки, которые могут возникнуть при вычислении формулы.
@@ -42,13 +43,29 @@ public:
         Div0,  // в результате вычисления возникло деление на ноль
     };
 
-    FormulaError(Category category);
+    FormulaError(Category category) :category_(category) {}
 
-    Category GetCategory() const;
+    Category GetCategory() const { return category_; }
 
-    bool operator==(FormulaError rhs) const;
+    bool operator==(FormulaError rhs) const { return rhs.category_ == category_;  }
 
-    std::string_view ToString() const;
+    std::string_view ToString() const {
+        switch (category_)
+        {
+        case FormulaError::Category::Ref:
+            return "#REF!";
+            break;
+        case FormulaError::Category::Value:
+            return "#VALUE!";
+            break;
+        case FormulaError::Category::Div0:
+            return "#DIV/0!";
+            break;
+        default:
+            return "";
+            break;
+        }
+    }
 
 private:
     Category category_;
