@@ -1,2 +1,2 @@
 # cpp-spreadsheet
-Дипломный проект: Электронная таблица
+Spreadsheet backend. Support references and formulas
